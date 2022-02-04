@@ -21,7 +21,6 @@ func TestContaCorrente_Sacar(t *testing.T) {
 		args   args
 		want   float64
 	}{
-		// TODO: Add test cases.
 		{"Teste01", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 300}, args{140}, 160},
 		{"Teste02", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 800}, args{220}, 580},
 		{"Teste03", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 200}, args{20}, 180},
@@ -37,10 +36,8 @@ func TestContaCorrente_Sacar(t *testing.T) {
 
 			c.Sacar(tt.args.valorDoSaque)
 
-			checkTotal := c.saldo
-
-			if checkTotal != tt.want {
-				t.Errorf("Saldo em conta após saque: %v, esperado %v", checkTotal, tt.want)
+			if c.saldo != tt.want {
+				t.Errorf("Saldo em conta após saque: %v, esperado %v", c.saldo, tt.want)
 			}
 		})
 	}
@@ -92,16 +89,17 @@ func TestContaCorrente_Transferir(t *testing.T) {
 		saldo         float64
 	}
 	type args struct {
-		valorDaTransferencia float64
 		contaDestino         ContaCorrente
+		valorDaTransferencia float64
 	}
 	tests := []struct {
 		name   string
 		fields fields
 		args   args
-		want   bool
+		want   float64
 	}{
 		// TODO: Add test cases.
+		{"Teste01", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 300}, args{}, 800},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -111,8 +109,13 @@ func TestContaCorrente_Transferir(t *testing.T) {
 				NumeroConta:   tt.fields.NumeroConta,
 				saldo:         tt.fields.saldo,
 			}
-			if got := c.Transferir(tt.args.valorDaTransferencia, tt.args.contaDestino); got != tt.want {
-				t.Errorf("ContaCorrente.Transferir() = %v, want %v", got, tt.want)
+
+			c.Transferir(tt.args.valorDaTransferencia, tt.args.contaDestino)
+
+			checkTotal := c.saldo - tt.args.valorDaTransferencia
+
+			if checkTotal != tt.want {
+				t.Errorf("ContaCorrente.Transferir() = %v, want %v", checkTotal, tt.want)
 			}
 		})
 	}
