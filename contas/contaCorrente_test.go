@@ -19,9 +19,12 @@ func TestContaCorrente_Sacar(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   string
+		want   float64
 	}{
 		// TODO: Add test cases.
+		{"Teste01", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 300}, args{140}, 160},
+		{"Teste02", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 800}, args{220}, 580},
+		{"Teste03", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 200}, args{20}, 180},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -31,8 +34,13 @@ func TestContaCorrente_Sacar(t *testing.T) {
 				NumeroConta:   tt.fields.NumeroConta,
 				saldo:         tt.fields.saldo,
 			}
-			if got := c.Sacar(tt.args.valorDoSaque); got != tt.want {
-				t.Errorf("ContaCorrente.Sacar() = %v, want %v", got, tt.want)
+
+			c.Sacar(tt.args.valorDoSaque)
+
+			checkTotal := c.saldo
+
+			if checkTotal != tt.want {
+				t.Errorf("Saldo em conta após saque: %v, esperado %v", checkTotal, tt.want)
 			}
 		})
 	}
@@ -54,8 +62,6 @@ func TestContaCorrente_Depositar(t *testing.T) {
 		args   args
 		want   float64
 	}{
-		// TODO: Add test cases.
-
 		{"Teste01", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 100}, args{120}, 220},
 		{"Teste02", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 100}, args{300}, 400},
 	}
