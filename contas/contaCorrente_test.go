@@ -98,7 +98,6 @@ func TestContaCorrente_Transferir(t *testing.T) {
 		args   args
 		want   float64
 	}{
-		// TODO: Add test cases.
 		{"Teste01", fields{clientes.Titular{"Joao", "12CPF30", "Analista"}, 10049, 273660, 300}, args{}, 800},
 	}
 	for _, tt := range tests {
