@@ -10,7 +10,7 @@ func TestContaCorrente_Sacar(t *testing.T) {
 		Titular       clientes.Titular
 		NumeroAgencia int
 		NumeroConta   int
-		saldo         float64
+		Saldo         float64
 	}
 	type args struct {
 		valorDoSaque float64
@@ -31,13 +31,13 @@ func TestContaCorrente_Sacar(t *testing.T) {
 				Titular:       tt.fields.Titular,
 				NumeroAgencia: tt.fields.NumeroAgencia,
 				NumeroConta:   tt.fields.NumeroConta,
-				saldo:         tt.fields.saldo,
+				Saldo:         tt.fields.Saldo,
 			}
 
 			c.Sacar(tt.args.valorDoSaque)
 
-			if c.saldo != tt.want {
-				t.Errorf("Saldo em conta após saque: %v, esperado %v", c.saldo, tt.want)
+			if c.Saldo != tt.want {
+				t.Errorf("Saldo em conta após saque: %v, esperado %v", c.Saldo, tt.want)
 			}
 		})
 	}
@@ -48,7 +48,7 @@ func TestContaCorrente_Depositar(t *testing.T) {
 		Titular       clientes.Titular
 		NumeroAgencia int
 		NumeroConta   int
-		saldo         float64
+		Saldo         float64
 	}
 	type args struct {
 		valorDoDeposito float64
@@ -68,11 +68,11 @@ func TestContaCorrente_Depositar(t *testing.T) {
 				Titular:       tt.fields.Titular,
 				NumeroAgencia: tt.fields.NumeroAgencia,
 				NumeroConta:   tt.fields.NumeroConta,
-				saldo:         tt.fields.saldo,
+				Saldo:         tt.fields.Saldo,
 			}
 			c.Depositar(tt.args.valorDoDeposito)
 
-			checkTotal := tt.fields.saldo + tt.args.valorDoDeposito
+			checkTotal := tt.fields.Saldo + tt.args.valorDoDeposito
 			if tt.want != checkTotal {
 				t.Errorf("ContaCorrente.Depoositar() = %v, want %v", checkTotal, tt.want)
 
@@ -86,7 +86,7 @@ func TestContaCorrente_Transferir(t *testing.T) {
 		Titular       clientes.Titular
 		NumeroAgencia int
 		NumeroConta   int
-		saldo         float64
+		Saldo         float64
 	}
 	type args struct {
 		contaDestino         ContaCorrente
@@ -106,12 +106,12 @@ func TestContaCorrente_Transferir(t *testing.T) {
 				Titular:       tt.fields.Titular,
 				NumeroAgencia: tt.fields.NumeroAgencia,
 				NumeroConta:   tt.fields.NumeroConta,
-				saldo:         tt.fields.saldo,
+				Saldo:         tt.fields.Saldo,
 			}
 
 			c.Transferir(tt.args.valorDaTransferencia, tt.args.contaDestino)
 
-			checkTotal := c.saldo - tt.args.valorDaTransferencia
+			checkTotal := c.Saldo - tt.args.valorDaTransferencia
 
 			if checkTotal != tt.want {
 				t.Errorf("ContaCorrente.Transferir() = %v, want %v", checkTotal, tt.want)
@@ -125,7 +125,7 @@ func TestContaCorrente_ObterSaldo(t *testing.T) {
 		Titular       clientes.Titular
 		NumeroAgencia int
 		NumeroConta   int
-		saldo         float64
+		Saldo         float64
 	}
 	tests := []struct {
 		name   string
@@ -142,7 +142,7 @@ func TestContaCorrente_ObterSaldo(t *testing.T) {
 				Titular:       tt.fields.Titular,
 				NumeroAgencia: tt.fields.NumeroAgencia,
 				NumeroConta:   tt.fields.NumeroConta,
-				saldo:         tt.fields.saldo,
+				Saldo:         tt.fields.Saldo,
 			}
 			if got := c.ObterSaldo(); got != tt.want {
 				t.Errorf("ContaCorrente.ObterSaldo() = %v, want %v", got, tt.want)
